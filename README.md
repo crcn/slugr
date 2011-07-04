@@ -1,8 +1,8 @@
 Slugr - Bundle node.js apps into a single file
 ==============================================
 
-!!Important!!
--------------
+Notice
+------
 
 This is *super* alpha, and it will break. I developed this for personal use, so it hasn't been battle tested against other use-cases. Shoot me a message to craig@spiceapps.com if you want collaborate.
 
