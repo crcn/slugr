@@ -1,7 +1,7 @@
 Notice
 ------
 
-This is a quick implementation, and it will break. I developed this for personal use, so it hasn't been battle tested against other use-cases.
+This is a quick implementation, so it will break. I developed this for personal use, so it hasn't been battle tested against other use-cases.
 
 Requirements
 ------------
