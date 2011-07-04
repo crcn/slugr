@@ -1,7 +1,7 @@
 Notice
 ------
 
-This is *super* alpha, and it will break. I developed this for personal use, so it hasn't been battle tested against other use-cases.
+This is *super* alpha, and it will break. I developed this for personal use, so it hasn't been battle tested against other use-cases. 
 
 Requirements
 ------------
@@ -41,7 +41,8 @@ Road Map
 * Option to write slugs as single .js files.
 * Support for custom .js scanners (html possibly).
 * Better NPM linking. Scanning for dependencies that don't exist in package.json.
-* package.json in root directory.
+* package.json in root directory for NPM linking.
+
 
 Notes
 -----
