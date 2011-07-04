@@ -50,7 +50,7 @@ Notes
 * The library scans for the use of require(...) in the target application, and works from there as to what .js files to include. If you're dynamically loading .js files, the write //require(...) somewhere in the code.
 * All other files besides .js are automatically included in the .slug file.
 
-Terminal Useage
+Terminal Usage
 ---------------
 
 Building a slug in terminal
@@ -61,7 +61,7 @@ Running a slug from terminal
 	
 	slugr <input slug file>
 	
-Code Useage
+Code Usage
 -----------
 
 	var slugr = require('slugr');
