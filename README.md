@@ -37,7 +37,7 @@ Road Map
 Notes
 -----
 
-* The library scans for the use of require(...) in the target application, and works from there as to what .js files to include. If you're dynamically loading .js files, then in somewhere in the code, write //require(...).
+* The library scans for the use of require(...) in the target application, and works from there as to what .js files to include. If you're dynamically loading .js files, the write //require(...) somewhere in the code.
 * All other files besides .js are automatically included in the .slug file.
 
 Terminal Useage
