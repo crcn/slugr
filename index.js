@@ -317,7 +317,7 @@ var _copyDependencies = function(ops, next)
 	q.start(next);
 }
 
-var _writeTargetProject = function(ops)
+var _writeTargetProject = function(ops, callback)
 {
 	var q = new Queue(),
 	
@@ -471,7 +471,7 @@ var _writeTargetProject = function(ops)
 	q.add(_scanArguments);
 	q.add(_writeBootstrap);
 	q.add(_bundleApp);
-	q.start();
+	q.start(callback);
 }
 
 
