@@ -32,7 +32,9 @@ Road Map
 
 * Better library support for creating / running .slug files in node.js apps.
 * Support for Windows.
-
+* Version controlling.
+* Caching slugs by verison.
+* Rollback support for broken slugs.
 
 Notes
 -----
