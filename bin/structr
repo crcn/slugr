@@ -1,0 +1,71 @@
+#!/usr/bin/env node
+
+var slugr = require('../index');
+
+var args = process.argv.concat(),
+	ops = {},
+	slugFile;
+
+
+//first two are crap
+args.shift();
+args.shift();
+
+
+while(args.length)
+{
+	var arg = args.shift();
+	switch(arg)
+	{
+		
+		//where the slug is being saved to
+		case '-o':
+		case '-output': 
+			ops.output = args.shift();
+		break;
+		
+		//input file for the slug
+		case '-i':
+		case '-input':
+			ops.input = args.shift();
+		break;
+		
+		case '-b':
+		case '-bundle':
+			ops.bundle = true;
+		break;
+		
+		case '-n':
+		case '-name':
+			ops.name = args.shift();
+		break;
+		
+		//the arguments for the slug file
+		case '-a':
+		case '-args':
+			ops.args = [];
+			while(args.length)
+			{
+				ops.args.push(args.shift())
+			}
+		break;
+		
+		//default = run this slug
+		default:
+			slugFile = arg;
+		break;
+	}
+}
+
+if(ops.input)
+{
+	slugr.write(ops, function()
+	{
+		
+	});
+}
+else
+if(slugFile)
+{
+	slugr.run(slugFile);
+}
