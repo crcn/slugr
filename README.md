@@ -37,6 +37,11 @@ Road Map
 * Version controlling.
 * Caching slugs by verison.
 * Rollback support for broken slugs.
+* List of all lib files in .config file in order of what's used first -> last.
+* Option to write slugs as single .js files.
+* Support for custom .js scanners (html possibly).
+* Better NPM linking. Scanning for dependencies that don't exist in package.json.
+* package.json in root directory.
 
 Notes
 -----
