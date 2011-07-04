@@ -78,6 +78,7 @@ var _scanFiles = function(dir, callback)
 	});
 }
 
+//replaces __dirname with the absolute path 
 var _replacePathWithDir = function(str, dir)
 {
 	return str.replace('__dirname', '\'' + dir + '\'').replace(/[\'\"](\.\.?\/)/, '\'' + dir + '$1');
@@ -95,7 +96,7 @@ var _scanJSFile = function(ops, next)
 	content = fs.readFileSync(input,'utf8');
 	
 	
-	
+	//include the paths so we can call require.resolve for any dependency
 	var _includePaths = function(next)
 	{
 		var paths = content.match(/require.paths.\w+\(.*?\)/g) || [];		
@@ -118,19 +119,28 @@ var _scanJSFile = function(ops, next)
 		next();
 	}
 	
+	//fixes the javascript content so any references to javascript files
+	//are pointing to the js files within the slug
 	var _fixDependencies = function(next)
 	{
+		
+		//parse any require(...)
 		var deps = content.match(/[\s]?require\(.*?\)/g) || [],
 			q = new Queue();			
 		
 		
+		//then loop through them
 		deps.forEach(function(required)
 		{
+			
+			//need to queue each dependency because it might need to be parsed which is async
 			q.add(function(nx)
 			{
 				try
 				{
 					var toLoad = _replacePathWithDir(required, inputDir),
+					
+						//strip require(), and evaluate the string content
 						pkg = eval(toLoad.match(/require\((.*?)\)/)[1]),
 						
 						fullPath = require.resolve(pkg);
@@ -143,14 +153,15 @@ var _scanJSFile = function(ops, next)
 						//the dependency will be moved over *IF* it's not part of NPM. e.g: SpiceKit
 						var org = model.cacheDep(fullPath);
 						
+						//IF the required file is not a relative path, then
+						//convert the absolute path into a relative path
 						if(org && required.indexOf('./') == -1)
 						{
 							var outputDirs = outputDir.split('/'),
 								requiredDirs = org.split('/');
 							
-							outputDirs.pop(); //remove trailing /
-							
-							// console.log(outputDir+" "+org);
+							//need to remove the trailing / here. Otherwise we get one extra ../
+							outputDirs.pop(); .
 							
 							for(var i = 0; i < outputDirs.length; i++)
 							{
@@ -348,6 +359,7 @@ var _writeTargetProject = function(ops)
 	var _copyTarget = function(next)
 	{
 		console.ok('Copying target source files');
+		
 		_copyDependencies({ input: dirname(input), tmpDir: tmpDir, output: tmpDir + '/app', model: model }, next);
 	}
 	
@@ -359,31 +371,39 @@ var _writeTargetProject = function(ops)
 		console.ok('Scanning args for parsable content');
 		
 		var q = new Queue(),
-			argvd = tmpDir + '/argv';//argv data
+		
+		//the directory for content passed from argv. Motivation = some of my apps
+		//use a configuration file, and I want them to live within the slug so I'm not worried
+		//about file references that don't exist.
+		argvd = tmpDir + '/argv';
 		
 		args.forEach(function(arg, index)
 		{
-			//check if it's a file
+			//files will have /, so check 
 			if(arg.indexOf('/') > -1)
 			{
 				try
 				{
 					var argStat = fs.lstatSync(arg);
 					
+					//TODO: copy the contents of the directory.
 					if(!argStat.isDirectory())
 					{
 						q.add(function(nx)
 						{
 							var newArg = arg.replace(dirname(arg), argvd);
 							
+							//need to replace the tmp directory with $SLUG_ROOT so we can use relative path vs absolute.
+							//$SLUG_ROOT gets changed back into ABS on init
 							args[index] = newArg.replace(tmpDir,'$SLUGR_ROOT');
 							
+							//copy the files now
 							exec('mkdir -p '+argvd+'; cp '+arg+' '+newArg, nx);
 						})
 					}
 				}
 				
-				//just ignore it
+				//not *really* a file? ignore it.
 				catch(e)
 				{
 					
@@ -394,19 +414,27 @@ var _writeTargetProject = function(ops)
 		q.start(next);
 	}
 	
+	//writes the bootstrap code which gets called each time the slug is loaded up.
 	var _writeBootstrap = function(next)
 	{
 		console.ok('Writing slug bootstrap');
 		
 		var target = 'app/' + input.split('/').pop();
+		
+		//include the target file specified in -i
 		var slug = 'require.paths.unshift(__dirname); require.paths.unshift(__dirname + "/app/node_modules"); require("'+target+'"); ';
+		
+		//write the index so we can call the slug from the target directory
 		fs.writeFileSync(tmpDir + '/index.js', slug);
 		
+		//the config file is necessary so  slugr knows how to the slug file on bootup
 		var config = { bundled: bundle, args: args };
 		
 		fs.writeFileSync(tmpDir + '/config.json', JSON.stringify(config));
 		
 		
+		//if bundle=true, then bundle all NPM packages into the .slug file. This can make the slug file
+		//REALLY big depending on the packages ~ 25MB
 		if(bundle)
 		{
 			console.ok('Writing npm bundle...');
@@ -425,6 +453,7 @@ var _writeTargetProject = function(ops)
 		}
 	}
 	
+	//bundles up the app into a .slug file
 	var _bundleApp = function(next)
 	{
 		console.ok('Compiling slug');
@@ -446,16 +475,21 @@ var _writeTargetProject = function(ops)
 }
 
 
-function _runTargetProject(inputFile)
+function _runTargetProject(inputFile, callback)
 {
 	var tmp = '/tmp/slugr-run-' + process.pid;
 	
 	console.success('Starting up slug');
 	
+	//dump the slug into a temporary directory
 	exec('mkdir -p '+ tmp+'; cd '+tmp+'; tar -xf '+ inputFile + '; cd ./app; npm link;', function(err)
 	{
+		
+		//load up the configuration for the slug file
 		var config = JSON.parse(fs.readFileSync(tmp + '/config.json','utf8'));
 		
+		
+		//check the arguments for anything that needs to be replaced on the fly
 		for(var i = config.args.length; i--;)
 		{
 			if(config.args[i].indexOf('$SLUGR_ROOT') == 0)
@@ -467,7 +501,12 @@ function _runTargetProject(inputFile)
 		//retain the first two args, but remove the next, and add the default args
 		process.argv = process.argv.splice(0,2).concat(config.args);
 		
-		require(tmp)
+		
+		//include the slug file
+		require(tmp);
+		
+		
+		if(callback) callback();
 	});
 }
 
