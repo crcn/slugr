@@ -4,10 +4,58 @@ var fs = require('fs'),
 exec = require('child_process').exec,
 path = require('path'),
 dirname = path.dirname,
-util = require('util'),
-Queue = require('./queue').Queue,
-Model = require('./model').Model;
+util = require('util');
 
+var Queue = function()
+{
+	var stack = [],
+		started = false,
+		running = false,
+		current;
+	
+	this.add = function(callback)
+	{
+		stack.push(callback);
+	}
+	
+	this.start = function(next)
+	{
+		if(started) return;
+		started = true;
+		
+		if(next) this.add(next);
+		
+		_next();
+	}
+	
+	var _next = function()
+	{
+		if(running || !stack.length) return;
+		
+		running = true;
+		
+		current = stack.shift();
+		
+		current(function()
+		{
+			running = false;
+			_next();
+		})
+	}
+	
+}
+
+//contains all current info about running project
+var Model = function()
+{
+	var deps = {};
+	
+	this.cacheDep = function(original, copied)
+	{
+		if(copied) deps[original] = copied;
+		return deps[original];
+	}
+}
 
 var _scanFiles = function(dir, callback)
 {
@@ -48,7 +96,6 @@ var _scanJSFile = function(ops, next)
 	content = fs.readFileSync(input,'utf8');
 	
 	
-	
 	//include the paths so we can call require.resolve for any dependency
 	var _includePaths = function(next)
 	{
@@ -68,6 +115,7 @@ var _scanJSFile = function(ops, next)
 			}
 		});
 		
+		
 		next();
 	}
 	
@@ -84,6 +132,7 @@ var _scanJSFile = function(ops, next)
 		//then loop through them
 		deps.forEach(function(required)
 		{
+			
 			//need to queue each dependency because it might need to be parsed which is async
 			q.add(function(nx)
 			{
@@ -112,7 +161,7 @@ var _scanJSFile = function(ops, next)
 								requiredDirs = org.split('/');
 							
 							//need to remove the trailing / here. Otherwise we get one extra ../
-							outputDirs.pop(); 
+							outputDirs.pop(); .
 							
 							for(var i = 0; i < outputDirs.length; i++)
 							{
@@ -129,16 +178,13 @@ var _scanJSFile = function(ops, next)
 									i++;
 								}
 							}
-						
 							
 							content = content.replace(required,'require\("'+requiredDirs.join('/')+'"\)');
 						}
 						
-						
 						nx();
-					}	
-					
-					//not part of the app? it's a library located elsewhere on the system
+					}
+
 					if(!org)
 					{
 						var rpaths = require.paths;
@@ -165,11 +211,6 @@ var _scanJSFile = function(ops, next)
 						}
 					}
 					
-					//tell the model to scan the current JS file
-					else
-					{
-						//model.scan(org);
-					}
 					
 					
 					replaceDep();
@@ -212,10 +253,6 @@ var _scanJSFile = function(ops, next)
 				
 			})
 		}
-		 
-		
-		// model.addJSFile(output);
-		// model.parsedJS(output, true)
 		
 		fs.writeFileSync(output, content);
 		
@@ -284,11 +321,8 @@ var _writeTargetProject = function(ops, callback)
 {
 	var q = new Queue(),
 	
-		//the temporary directory where the slug lives
-		tmpDir   = '/tmp/slugr-build';
-	
 		//contains all global data for given project
-		model = new Model(tmpDir),
+		model = new Model(),
 		
 		//the output directory to write the *.slug to
 		output   = ops.output,
@@ -303,8 +337,10 @@ var _writeTargetProject = function(ops, callback)
 		args     = ops.args || [],
 		
 		//TRUE the npm dependencies are compiled with the slug
-		bundle   = ops.bundle;
+		bundle   = ops.bundle,
 		
+		//the temporary directory where the slug lives
+		tmpDir   = '/tmp/slugr-build';
 	
 	
 	//makes a temporary directory where the build process happens
@@ -312,10 +348,7 @@ var _writeTargetProject = function(ops, callback)
 	{
 		console.ok('Making temporary build directory');
 		
-		exec('rm -rf ' + tmpDir, function()
-		{
-			exec('mkdir -p ' + tmpDir, next);
-		});
+		exec('rm -rf ' + tmpDir + '; mkdir -p ' + tmpDir, next);
 	}
 	
 	
@@ -391,7 +424,6 @@ var _writeTargetProject = function(ops, callback)
 		//write the index so we can call the slug from the target directory
 		fs.writeFileSync(tmpDir + '/index.js', slug);
 		
-		// console.log(model.getJSFiles())
 		//the config file is necessary so  slugr knows how to the slug file on bootup
 		var config = { bundled: bundle, args: args };
 		
