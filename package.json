@@ -1,7 +1,7 @@
 {
     "name":"slugr",
     "descriptions": "Wraps node.js apps into a single executable file",
-    "version": "0.0.1",
+    "version": "0.0.1-1",
     "author": "Craig Condon <craig@spiceapps.com>",
     "bin": {
         "slugr": "./bin/slugr"
@@ -10,7 +10,7 @@
         "type": "git",
         "url": "http://github.com/spiceapps/slugr.git"
     },
-    "main": "./index.js",
+    "main": "./lib/index.js",
     "dependencies": {
         "colors": "0.5.0"
     }
