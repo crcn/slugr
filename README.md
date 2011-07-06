@@ -77,7 +77,7 @@ config in path/to/project/slug.json:
 		"bundle": true,
 	
 		//the arguments to pass whenever loading the .slug
-	    "args": ["config", "/Users/craigcondon/Dropbox/work/Spice2/spice.io/servers/spiceio/main/core/apps/cliqly/config.json", "load"] 
+	    "args": ["my","app","args"] 
 	}
 
 terminal:
