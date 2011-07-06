@@ -1,7 +1,7 @@
 {
     "name":"slugr",
     "descriptions": "Wraps node.js apps into a single executable file",
-    "version": "0.0.1-1",
+    "version": "0.0.1-3",
     "author": "Craig Condon <craig@spiceapps.com>",
     "bin": {
         "slugr": "./bin/slugr"
