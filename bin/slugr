@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-var slugr = require('../lib');
+var slugr = require('../lib'),
+	fs = require('fs');
 
 var args = process.argv.concat(),
 	ops = {},
@@ -10,6 +11,23 @@ var args = process.argv.concat(),
 //first two are crap
 args.shift();
 args.shift();
+
+
+function loadConfig(path, cwd)
+{
+	var cfg = JSON.parse(fs.readFileSync(path, 'utf8'));
+	
+	//the config *may* have been loaded after other stuff, so copy it over instead overwriting it
+	for(var property in cfg)
+	{
+		var v = cfg[property];
+		
+		if(typeof v == 'string') v = v.replace('./',cwd || process.cwd());
+		
+		ops[property] = v;
+	}
+	return ops;
+}
 
 
 while(args.length)
@@ -30,15 +48,31 @@ while(args.length)
 			ops.input = args.shift();
 		break;
 		
+		//if provided, NPM bundles all dependencies into one
 		case '-b':
 		case '-bundle':
 			ops.bundle = true;
 		break;
 		
+		//version of the slug being generated
+		case '-v':
+		case '-version':
+			ops.version = args.shift();
+		break
+		
+		//the name of the slug
 		case '-n':
 		case '-name':
 			ops.name = args.shift();
 		break;
+		
+		
+		//loads a config up 
+		case '-c':
+		case '-config':
+			loadConfig(args.shift())
+		break;
+			
 		
 		//the arguments for the slug file
 		case '-a':
@@ -68,4 +102,22 @@ else
 if(slugFile)
 {
 	slugr.run(slugFile);
+}
+
+//build from config
+else
+{
+	var cwd = process.cwd();
+
+	try
+	{
+		slugr.write(loadConfig(cwd + '/slug.json', cwd), function()
+		{
+			
+		})
+	}
+	catch(e)
+	{
+		console.error('Could not locate slug.json in %s', cwd);
+	}
 }
