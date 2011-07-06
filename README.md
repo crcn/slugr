@@ -19,10 +19,10 @@ Installation
 Motivation
 ----------
 
-* Create transportable node.js applications without having to worry about setting it up on other servers.
-* Many local dependencies are fragmented using require.path.unshift(...). Slugr combines then.
-* Cleaner, and easier to manage.
-
+* Portability: all dependencies are packaged into a single slug file, including fragmented lib files ( using require.unshift(...) ).
+* Compression: slugs are compressed. This makes it easier, and faster to deploy on other servers.
+* Easy Deployment: Easier to deploy accross a cluster of servers without having to worry as much about setup.
+* Versioning
 
 Supports
 --------
