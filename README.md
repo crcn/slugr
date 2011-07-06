@@ -55,6 +55,8 @@ Notes
 Building a Slug From Terminal
 -----------------------------
 	
+terminal:
+
 	slugr -i <input .js file> -o <output directory> -n <[optional] name of slug> -a <[optional] default arguments>
 	
 Building a Slug From Config
