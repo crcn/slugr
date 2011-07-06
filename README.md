@@ -59,6 +59,31 @@ Building a slug in terminal
 	
 	slugr -i <input .js file> -o <output directory> -n <[optional] name of slug> -a <[optional] default arguments>
 	
+Building a slug from config
+
+config in path/to/project/slug.json:
+	
+	{
+		//the input JS file
+	    "input": "./console.js", 
+	
+		//the output directory for the .slug
+	    "output": "~/Desktop", 
+	
+		//the name of the slug
+	    "name": "spice.io", 
+	
+		//bundle *everything* into the slug. Even NPM packages
+		"bundle": true,
+	
+		//the arguments to pass whenever loading the .slug
+	    "args": ["config", "/Users/craigcondon/Dropbox/work/Spice2/spice.io/servers/spiceio/main/core/apps/cliqly/config.json", "load"] 
+	}
+
+terminal:
+	
+	cd path/to/project; slugr; 
+	
 Running a slug from terminal
 	
 	slugr <input slug file>
