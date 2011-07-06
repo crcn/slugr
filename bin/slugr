@@ -107,7 +107,7 @@ if(slugFile)
 //build from config
 else
 {
-	//'/Users/craigcondon/Dropbox/work/Spice2/spice.io/servers/spiceio/';//
+	//var cwd = '/Users/craigcondon/Dropbox/work/Spice2/spice.io/servers/spiceio/';//process.cwd();
 	var cwd = process.cwd();
 
 	try
@@ -119,6 +119,7 @@ else
 	}
 	catch(e)
 	{
+		console.log(e.stack)
 		console.error('Could not locate package.json in %s', cwd);
 	}
 }
