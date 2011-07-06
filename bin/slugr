@@ -15,16 +15,16 @@ args.shift();
 
 function loadConfig(path, cwd)
 {
-	var cfg = JSON.parse(fs.readFileSync(path, 'utf8'));
+	var cfg = fs.readFileSync(path, 'utf8');
+	
+	cfg = cfg.replace(/\.\//g,cwd || process.cwd());
+	
+	var cfg = JSON.parse(cfg);
 	
 	//the config *may* have been loaded after other stuff, so copy it over instead overwriting it
 	for(var property in cfg)
 	{
-		var v = cfg[property];
-		
-		if(typeof v == 'string') v = v.replace('./',cwd || process.cwd());
-		
-		ops[property] = v;
+		ops[property] = cfg[property];
 	}
 	return ops;
 }
@@ -107,17 +107,18 @@ if(slugFile)
 //build from config
 else
 {
+	//'/Users/craigcondon/Dropbox/work/Spice2/spice.io/servers/spiceio/';//
 	var cwd = process.cwd();
 
 	try
 	{
-		slugr.write(loadConfig(cwd + '/slug.json', cwd), function()
+		slugr.write(loadConfig(cwd + '/package.json', cwd), function()
 		{
 			
 		})
 	}
 	catch(e)
 	{
-		console.error('Could not locate slug.json in %s', cwd);
+		console.error('Could not locate package.json in %s', cwd);
 	}
 }
