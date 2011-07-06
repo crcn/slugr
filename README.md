@@ -59,26 +59,19 @@ terminal:
 
 	slugr -i <input .js file> -o <output directory> -n <[optional] name of slug> -a <[optional] default arguments>
 	
-Building a Slug From Config
+Building a Slug From package.json
 ---------------------------
 
-path/to/project/slug.json:
+path/to/project/package.json:
 	
 	{
-		//the input JS file
-	    "input": "./console.js", 
-	
-		//the output directory for the .slug
-	    "output": "~/Desktop", 
-	
-		//the name of the slug
-	    "name": "spice.io", 
-	
-		//bundle *everything* into the slug. Even NPM packages
-		"bundle": true,
-	
-		//the arguments to pass whenever loading the .slug
-	    "args": ["my","app","args"] 
+	    "name":"myapp",
+	    "version": "0.0.1",
+	    "main": "./index.js",
+		"slug": {
+			"args":["test","args"],
+			"output": "~/Desktop"
+		}
 	}
 
 terminal:
