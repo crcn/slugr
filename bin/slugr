@@ -107,8 +107,8 @@ if(slugFile)
 //build from config
 else
 {
-	//var cwd = '/Users/craigcondon/Dropbox/work/Spice2/spice.io/servers/spiceio/';//process.cwd();
-	var cwd = process.cwd();
+	var cwd = '/Users/craigcondon/Dropbox/work/Spice2/spice.io/servers/spiceio/';//process.cwd();
+	var cwd = process.cwd() + '/';
 
 	try
 	{
