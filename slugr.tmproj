@@ -7,6 +7,8 @@
 	<key>documents</key>
 	<array>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>bin</string>
 			<key>regexFolderFilter</key>
@@ -31,28 +33,90 @@
 		<dict>
 			<key>filename</key>
 			<string>MIT-LICENSE.txt</string>
+			<key>lastUsed</key>
+			<date>2011-07-06T03:24:27Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>package.json</string>
+			<key>lastUsed</key>
+			<date>2011-07-06T05:02:15Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>README.md</string>
+			<key>lastUsed</key>
+			<date>2011-07-06T03:29:12Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
+		<key>MIT-LICENSE.txt</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>README.md</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>31</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>bin/slugr</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>30</integer>
+				<key>line</key>
+				<integer>2</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>75</integer>
+		</dict>
 		<key>lib/index.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>34</integer>
+				<integer>2</integer>
 				<key>line</key>
-				<integer>22</integer>
+				<integer>20</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>lib/logger.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -71,17 +135,66 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
+			<integer>-1</integer>
+		</dict>
+		<key>lib/queue.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>11</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>lib/utils.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>12</integer>
+				<key>line</key>
+				<integer>9</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>package.json</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>17</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
 		<string>lib/index.js</string>
+		<string>lib/utils.js</string>
+		<string>bin/slugr</string>
+		<string>MIT-LICENSE.txt</string>
+		<string>README.md</string>
+		<string>package.json</string>
+		<string>lib/queue.js</string>
+		<string>lib/logger.js</string>
 		<string>lib/model.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{0, 4}, {1464, 1024}}</string>
+	<string>{{0, 4}, {1470, 1024}}</string>
 </dict>
 </plist>

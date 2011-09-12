@@ -47,6 +47,7 @@ Road Map
 Notes
 -----
 
+* NAR = Node.js Archive
 * The library scans for the use of require(...) in the target application, and works from there as to what .js files to include. If you're dynamically loading .js files, the write //require(...) somewhere in the code.
 * All other files besides .js are automatically included in the .slug file.
 
@@ -62,15 +63,20 @@ Building a Slug From package.json
 
 path/to/project/package.json:
 	
-	{
-	    "name":"myapp",
-	    "version": "0.0.1",
-	    "main": "./index.js",
-		"slug": {
-			"args":["test","args"],
-			"output": "~/Desktop"
-		}
+
+```javascript
+
+{
+    "name":"myapp",
+    "version": "0.0.1",
+    "main": "./index.js",
+	"slug": {
+		"args":["test","args"],
+		"output": "~/Desktop"
 	}
+}
+
+```
 
 terminal:
 	
@@ -87,12 +93,17 @@ terminal:
 Code Usage
 -----------
 
-	var slugr = require('slugr');
-	
-	slugr.run('/path/to/my/app.slug', function()
-	{
-		//started up successfuly here
-	});
+
+```javascript
+
+var slugr = require('slugr');
+
+slugr.run('/path/to/my/app.slug', function()
+{
+	//started up successfuly here
+});
+
+```
 	
 	
 
