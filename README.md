@@ -1,8 +1,9 @@
 Notice
 ------
 
-[Gittyup](https://github.com/spiceapps/gittyup) is the newer, better version. 
+This is a quick implementation, so it *will* break. I developed this for personal use, so it hasn't been battle tested against other use-cases.
 
+Check out a video demonstration here: http://d.pr/HkCq
 
 Requirements
 ------------
