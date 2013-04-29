@@ -1,1 +1,1 @@
-# This project has been deprecated in favor of [nexe](/crcn/nexe)
+# This project has been deprecated in favor of [nexe](http://github.com/crcn/nexe)
